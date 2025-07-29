@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
-  const [emailId, setEmailID] = useState("achal1998@gmail.com");
-  const [password, setPassword] = useState("Achal@1998");
+  const [emailId, setEmailID] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,90 +15,106 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-      BASE_URL + "/login",
+        BASE_URL + "/login",
         {
           emailId,
           password,
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      dispatch(addUser(res.data))
-      return navigate("/");
+      dispatch(addUser(res.data));
+      navigate("/");
     } catch (err) {
-      setError(err?.response?.data || "Login failed");
+      setError(err?.response?.data);
     }
   };
-  
+
   return (
-    <div className="flex justify-center my-10">
-      <div className="card bg-base-300 w-96 shadow-sm">
-        <div className="card-body">
-          <h2 className="card-title">Login</h2>
-          <div>
-            <h1 className="text-sm my-2">Email</h1>
-            <label className="input validator">
-              <svg
-                className="h-[1em] opacity-50"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2.5"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </g>
-              </svg>
+    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
+      <div className="flex flex-col lg:flex-row w-full max-w-2xl bg-base-100 shadow-xl rounded-xl overflow-hidden">
+        <div className="hidden lg:block lg:w-1/2">
+          <img
+            src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=800&q=80"
+            alt="City View"
+            className="object-cover h-full w-full"
+          />
+        </div>
+        <div className="w-full lg:w-1/2 px-6 py-6 sm:px-8 sm:py-8">
+          <h2 className="text-2xl font-bold text-center mb-4">
+            Login to your account
+          </h2>
+
+          <form className="space-y-4">
+            <div>
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
               <input
-                type="text"
-                placeholder="Username"
+                type="email"
+                placeholder="Email"
                 value={emailId}
                 onChange={(e) => setEmailID(e.target.value)}
+                className="input input-bordered w-full"
+                required
               />
-            </label>
-            <h1 className="text-sm my-2">Password</h1>
-            <label className="input validator">
-              <svg
-                className="h-[1em] opacity-50"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <g
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2.5"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                  <circle
-                    cx="16.5"
-                    cy="7.5"
-                    r=".5"
-                    fill="currentColor"
-                  ></circle>
-                </g>
-              </svg>
+            </div>
+
+            <div>
+              <label className="label">
+                <span className="label-text">Password</span>
+              </label>
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="input input-bordered w-full"
+                required
               />
-            </label>
-          </div>
-          <p className="text-red-500">{error}</p>
-          <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleLogin}>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <label className="label cursor-pointer space-x-2">
+                <input type="checkbox" className="checkbox checkbox-sm" />
+                <span className="label-text">Remember me</span>
+              </label>
+              <a href="#" className="link link-hover text-sm">
+                Forgot password?
+              </a>
+            </div>
+
+            {error && <p className="text-error text-sm">{error}</p>}
+
+            <button
+              type="button"
+              className="btn btn-primary w-full"
+              onClick={handleLogin}
+            >
               Login
             </button>
-          </div>
+
+            <div className="divider">OR</div>
+
+            <button
+              type="button"
+              className="btn btn-outline w-full"
+              onClick={() => alert("Google login not implemented yet")}
+            >
+              <img
+                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                alt="Google"
+                className="w-5 h-5 mr-2"
+              />
+              Login with Google
+            </button>
+          </form>
+
+          <p className="text-center text-sm mt-4">
+            Don't have an account?{" "}
+            <a href="/signup" className="link link-primary">
+              Create new account
+            </a>
+          </p>
         </div>
       </div>
     </div>
