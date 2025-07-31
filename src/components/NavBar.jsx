@@ -56,6 +56,11 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/connections" className="hover:bg-base-200">
+                  Connections
+                </Link>
+              </li>
+              <li>
                 <button
                   onClick={handleLogout}
                   className="text-red-500 hover:bg-base-200"
