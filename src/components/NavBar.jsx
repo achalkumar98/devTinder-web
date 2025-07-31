@@ -1,7 +1,7 @@
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios";
 import { removeUser } from "../utils/userSlice";
 
 const NavBar = () => {
@@ -11,63 +11,63 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
       dispatch(removeUser());
       navigate("/login");
     } catch (err) {
-      console.error("Logout failed:", err);
+      console.error(err);
     }
   };
 
   return (
-    <div className="navbar bg-base-300 shadow-md px-4">
-      {/* Left / Start */}
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl normal-case">
-          🙋‍♂️ DevTinder
+    <nav className="bg-base-100 shadow-md px-4 py-2 flex items-center justify-between">
+      {/* Logo / Brand */}
+      <div className="flex items-center space-x-2">
+        <Link to="/" className="text-2xl font-bold text-primary hover:opacity-80 transition">
+          👩‍💻 DevTinder
         </Link>
       </div>
 
-      {/* Right / End */}
-      <div className="flex-none">
-        {user ? (
+      {/* User Section */}
+      {user && (
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+            Welcome, <span className="font-semibold">{user.firstName}</span>
+          </span>
+
+          {/* Avatar Dropdown */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={user.photoUrl} alt="User avatar" />
+              <div className="w-10 rounded-full border border-gray-300">
+                <img alt="user avatar" src={user.photoUrl} />
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-44"
             >
-              <li className="text-sm px-2 py-1 font-medium">
-                Welcome, {user.firstName}
+              <li>
+                <Link to="/profile" className="hover:bg-base-200">
+                  Profile
+                </Link>
               </li>
               <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <a onClick={handleLogout}>Logout</a>
+                <button
+                  onClick={handleLogout}
+                  className="text-red-500 hover:bg-base-200"
+                >
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
-        ) : (
-          <div className="flex gap-2">
-            <Link to="/login" className="btn btn-outline btn-sm">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary btn-sm">
-              Sign Up
-            </Link>
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </nav>
   );
 };
 

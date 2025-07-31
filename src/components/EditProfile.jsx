@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
-import UserCard from "./UserCard";
 import { BASE_URL } from "../utils/constants";
+import UserCard from "./UserCard";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
@@ -36,7 +36,7 @@ const EditProfile = ({ user }) => {
       dispatch(addUser(res.data.data));
       setShowToast(true);
       setTimeout(() => {
-        setShowToast(false);
+      setShowToast(false);
       }, 3000);
     } catch (err) {
       setError(err?.response?.data);
@@ -95,8 +95,6 @@ const EditProfile = ({ user }) => {
                     onChange={(e) => setAge(e.target.value)}
                   />
                 </label>
-
-                {/* Gender Dropdown */}
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">Gender:</span>
@@ -112,8 +110,6 @@ const EditProfile = ({ user }) => {
                     <option value="other">other</option>
                   </select>
                 </label>
-
-                {/* About Textarea */}
                 <label className="form-control w-full max-w-xs my-2">
                   <div className="label">
                     <span className="label-text">About:</span>
