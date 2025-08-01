@@ -5,23 +5,26 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { Link, useNavigate } from "react-router-dom";
 
-
-const Login = () => {
+const SignUp = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [emailId, setEmailID] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleSignUp = async () => {
     try {
-      const res = await axios.post(BASE_URL  + "/login", {emailId, password},
-      { withCredentials: true }
+      const res = await axios.post(
+        BASE_URL + "/signup",
+        { firstName, lastName, emailId, password },
+        { withCredentials: true }
       );
-      dispatch(addUser(res.data));
-      navigate("/");
+      dispatch(addUser(res.data.data));
+      navigate("/profile");
     } catch (err) {
-      setError(err?.response?.data || "Login failed, please try again");
+      setError(err?.response?.data);
     }
   };
 
@@ -37,10 +40,38 @@ const Login = () => {
         </div>
         <div className="w-full lg:w-1/2 px-6 py-6 sm:px-8 sm:py-8">
           <h2 className="text-2xl font-bold text-center mb-4">
-            Login to your account
+            Create Account
           </h2>
 
           <form className="space-y-4">
+            <div>
+              <label className="label">
+                <span className="label-text">First Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="label">
+                <span className="label-text">Last Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+
             <div>
               <label className="label">
                 <span className="label-text">Email</span>
@@ -69,24 +100,14 @@ const Login = () => {
               />
             </div>
 
-            <div className="flex justify-between items-center">
-              <label className="label cursor-pointer space-x-2">
-                <input type="checkbox" className="checkbox checkbox-sm" />
-                <span className="label-text">Remember me</span>
-              </label>
-              <a href="#" className="link link-hover text-sm">
-                Forgot password?
-              </a>
-            </div>
-
             {error && <p className="text-error text-sm">{error}</p>}
 
             <button
               type="button"
               className="btn btn-primary w-full"
-              onClick={handleLogin}
+              onClick={handleSignUp}
             >
-              Login
+              Sign Up
             </button>
 
             <div className="divider">OR</div>
@@ -101,14 +122,14 @@ const Login = () => {
                 alt="Google"
                 className="w-5 h-5 mr-2"
               />
-              Login with Google
+              Sign up with Google
             </button>
           </form>
 
           <p className="text-center text-sm mt-4">
-            Don't have an account?{" "}
-            <Link to="/signup" className="link link-primary">
-              Create new account
+            Already have an account?{" "}
+            <Link to="/login" className="link link-primary">
+              Login here
             </Link>
           </p>
         </div>
@@ -117,4 +138,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

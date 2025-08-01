@@ -21,21 +21,18 @@ const NavBar = () => {
 
   return (
     <nav className="bg-base-100 shadow-md px-4 py-2 flex items-center justify-between">
-      {/* Logo / Brand */}
       <div className="flex items-center space-x-2">
         <Link to="/" className="text-2xl font-bold text-primary hover:opacity-80 transition">
           👩‍💻 DevTinder
         </Link>
       </div>
 
-      {/* User Section */}
       {user && (
         <div className="flex items-center gap-4">
           <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
             Welcome, <span className="font-semibold">{user.firstName}</span>
           </span>
 
-          {/* Avatar Dropdown */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
