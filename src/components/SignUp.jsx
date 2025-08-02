@@ -24,11 +24,11 @@ const SignUp = () => {
       dispatch(addUser(res.data.data));
       navigate("/profile");
     } catch (err) {
-      setError(err?.response?.data);
+      setError(err?.response?.data || "Signup failed. Please try again.");
     }
   };
 
-  return (
+   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
       <div className="flex flex-col lg:flex-row w-full max-w-2xl bg-base-100 shadow-xl rounded-xl overflow-hidden">
         <div className="hidden lg:block lg:w-1/2">
@@ -100,7 +100,7 @@ const SignUp = () => {
               />
             </div>
 
-            {error && <p className="text-error text-sm">{error}</p>}
+            <p className="text-error text-sm">{error}</p>
 
             <button
               type="button"
@@ -137,5 +137,7 @@ const SignUp = () => {
     </div>
   );
 };
+
+
 
 export default SignUp;

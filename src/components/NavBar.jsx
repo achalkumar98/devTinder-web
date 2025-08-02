@@ -15,21 +15,22 @@ const NavBar = () => {
       dispatch(removeUser());
       navigate("/login");
     } catch (err) {
-      console.error(err);
+      console.error("Logout failed:", err);
     }
   };
 
   return (
-    <nav className="bg-base-100 shadow-md px-4 py-2 flex items-center justify-between">
-      <div className="flex items-center space-x-2">
-        <Link to="/" className="text-2xl font-bold text-primary hover:opacity-80 transition">
-          👩‍💻 DevTinder
-        </Link>
-      </div>
+    <nav className="bg-base-100 shadow-md px-4 py-3 flex items-center justify-between">
+      <Link
+        to="/"
+        className="text-2xl font-bold text-primary hover:opacity-80 transition"
+      >
+        👩‍💻 DevTinder
+      </Link>
 
       {user && (
         <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+          <span className="text-sm text-gray-700 dark:text-gray-200 hidden sm:block">
             Welcome, <span className="font-semibold">{user.firstName}</span>
           </span>
 
@@ -40,9 +41,13 @@ const NavBar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full border border-gray-300">
-                <img alt="user avatar" src={user.photoUrl} />
+                <img
+                  alt="user avatar"
+                  src={user.photoUrl || "https://www.gravatar.com/avatar?d=mp"}
+                />
               </div>
             </div>
+
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-44"
@@ -57,9 +62,9 @@ const NavBar = () => {
                   Connections
                 </Link>
               </li>
-                  <li>
+              <li>
                 <Link to="/requests" className="hover:bg-base-200">
-                Requests
+                  Requests
                 </Link>
               </li>
               <li>
@@ -77,5 +82,4 @@ const NavBar = () => {
     </nav>
   );
 };
-
 export default NavBar;

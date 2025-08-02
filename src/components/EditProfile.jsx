@@ -13,11 +13,17 @@ const EditProfile = ({ user }) => {
   const [gender, setGender] = useState(user.gender || "");
   const [about, setAbout] = useState(user.about || "");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
   const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch();
 
   const saveProfile = async () => {
     setError("");
+
+    if (!firstName || !lastName || !age || !gender) {
+      setError("Please fill out all required fields.");
+      return;
+    }
+
     try {
       const res = await axios.put(
         BASE_URL + "/profile/edit",
@@ -36,114 +42,119 @@ const EditProfile = ({ user }) => {
       dispatch(addUser(res.data.data));
       setShowToast(true);
       setTimeout(() => {
-      setShowToast(false);
+        setShowToast(false);
       }, 3000);
     } catch (err) {
-      setError(err?.response?.data);
+      setError(err?.response?.data || "Something went wrong.");
     }
   };
 
   return (
-    <>
-      <div className="flex justify-center my-10">
-        <div className="flex justify-center mx-10">
-          <div className="card bg-base-300 w-96 shadow-xl">
-            <div className="card-body">
-              <h2 className="card-title justify-center">Edit Profile</h2>
-              <div>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">First Name:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={firstName}
-                    className="input input-bordered w-full max-w-xs"
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Last Name:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={lastName}
-                    className="input input-bordered w-full max-w-xs"
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Photo URL:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={photoUrl}
-                    className="input input-bordered w-full max-w-xs"
-                    onChange={(e) => setPhotoUrl(e.target.value)}
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Age:</span>
-                  </div>
-                  <input
-                    type="text"
-                    value={age}
-                    className="input input-bordered w-full max-w-xs"
-                    onChange={(e) => setAge(e.target.value)}
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">Gender:</span>
-                  </div>
-                  <select
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    className="select select-bordered w-full max-w-xs"
-                  >
-                    <option>Select Gender</option>
-                    <option value="male">male</option>
-                    <option value="female">female</option>
-                    <option value="other">other</option>
-                  </select>
-                </label>
-                <label className="form-control w-full max-w-xs my-2">
-                  <div className="label">
-                    <span className="label-text">About:</span>
-                  </div>
-                  <textarea
-                    value={about}
-                    onChange={(e) => setAbout(e.target.value)}
-                    className="textarea textarea-bordered w-full max-w-xs"
-                    rows={3}
-                  ></textarea>
-                </label>
-              </div>
-
-              <p className="text-red-500">{error}</p>
-              <div className="card-actions justify-center m-2">
-                <button className="btn btn-primary" onClick={saveProfile}>
-                  Save Profile
-                </button>
-              </div>
-            </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto my-10 px-4">
+      <div className="w-full max-w-md bg-base-200 rounded-2xl p-6 shadow-xl">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-primary">
+          Edit Profile
+        </h2>
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          <div>
+            <label className="block mb-1 font-medium">
+              First Name<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
           </div>
-        </div>
+
+          <div>
+            <label className="block mb-1 font-medium">
+              Last Name<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">Photo URL</label>
+            <input
+              type="text"
+              className="input input-bordered w-full"
+              value={photoUrl}
+              onChange={(e) => setPhotoUrl(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">
+              Age<span className="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              className="input input-bordered w-full"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">
+              Gender<span className="text-red-500">*</span>
+            </label>
+            <select
+              className="select select-bordered w-full"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              required
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block mb-1 font-medium">About</label>
+            <textarea
+              className="textarea textarea-bordered w-full"
+              rows="3"
+              value={about}
+              onChange={(e) => setAbout(e.target.value)}
+            />
+          </div>
+
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <div className="flex justify-center pt-4">
+            <button className="btn btn-primary w-full" onClick={saveProfile}>
+              Save Profile
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="w-full max-w-sm h-full flex flex-col justify-between my-8">
         <UserCard
           user={{ firstName, lastName, photoUrl, age, gender, about }}
+          editable={true}
         />
       </div>
       {showToast && (
         <div className="toast toast-top toast-center">
-          <div className="alert alert-success">
+          <div className="alert alert-success shadow-lg">
             <span>Profile saved successfully.</span>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,12 +1,13 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   const fetchConnections = async () => {
     try {
@@ -16,39 +17,42 @@ const Connections = () => {
       dispatch(addConnections(res.data.data));
     } catch (err) {
       console.error("Failed to fetch connections:", err);
+    } finally {
+      setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchConnections();
   }, []);
 
-  if (!connections) return null;
-  if (connections.length === 0) return <h1 className="flex justify-center my-10"> No Connections Found</h1>;
+  if (loading) return <p className="text-center my-10">Loading connections...</p>;
+  if (!connections || connections.length === 0)
+    return <h1 className="flex justify-center my-10">No Connections Found</h1>;
 
   return (
-    <div className="text-center my-10">
-      <h1 className="text-bold text-white text-3xl">Connections</h1>
+    <div className="text-center my-10 px-4">
+      <h1 className="font-bold text-white text-3xl mb-6">Connections</h1>
 
-      {connections.map((connection) => {
-        const { _id, firstName, lastName, photoUrl, age, gender, about } =
-          connection;
-
-        return (
-          <div key={_id} className="flex m-4 p-4 rounded-lg bg-base-200 w-1/2 mx-auto">
-            <div>
-              <img alt="photo" className="w-20 h-20 rounded-full" src={photoUrl} />
-            </div>
-            <div className="text-left mx-4">
-              <h2 className="text-xl font-bold">
-                {firstName + " " + lastName}
-              </h2>
-              {age && gender && <p>{age + ", " + gender}</p>}
-              <p>{about}</p>
-            </div>
+      {connections.map(({ _id, firstName, lastName, photoUrl, age, gender, about }) => (
+        <div
+          key={_id}
+          className="flex items-center gap-4 m-4 p-4 rounded-lg bg-base-200 w-full md:w-2/3 lg:w-1/2 mx-auto"
+        >
+          <img
+            alt="profile"
+            className="w-20 h-20 object-cover rounded-full border"
+            src={photoUrl}
+          />
+          <div className="text-left">
+            <h2 className="text-xl font-bold">
+              {firstName} {lastName}
+            </h2>
+            {age && gender && <p className="text-sm">{age}, {gender}</p>}
+            <p className="text-sm">{about}</p>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 };
