@@ -11,7 +11,7 @@ const Premium = () => {
 
   const verifyPremiumUser = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/premium/verify`, {
+      const res = await axios.get(`${BASE_URL}/api/premium/verify`, {
         withCredentials: true,
       });
       setIsUserPremium(res.data.isPremium || false);
@@ -25,7 +25,7 @@ const Premium = () => {
 
     try {
       const order = await axios.post(
-        `${BASE_URL}/payment/create`,
+        `${BASE_URL}/api/payment/create`,
         { membershipType: type },
         { withCredentials: true }
       );

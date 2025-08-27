@@ -11,7 +11,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${BASE_URL}/logout`, {}, { withCredentials: true });
+      await axios.post(`${BASE_URL}/api/logout`, {}, { withCredentials: true });
       dispatch(removeUser());
       navigate("/login");
     } catch (err) {

@@ -11,7 +11,7 @@ const Requests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/requests/received", {
+      const res = await axios.get(BASE_URL + "/api/user/requests/received", {
         withCredentials: true,
       });
       dispatch(addRequests(res.data.data));
@@ -25,7 +25,7 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       await axios.post(
-        `${BASE_URL}/request/review/${status}/${_id}`,
+        `${BASE_URL}/api/request/review/${status}/${_id}`,
         {},
         { withCredentials: true }
       );
@@ -84,13 +84,13 @@ const Requests = () => {
             </div>
             <div className="flex gap-2">
               <button
-                className="btn btn-secondary bg-red-600 hover:bg-red-700 border-none"
+                className="btn btn-secondary border-none"
                 onClick={() => reviewRequest("rejected", _id)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-primary bg-green-600 hover:bg-green-700 border-none"
+                className="btn btn-primary border-none"
                 onClick={() => reviewRequest("accepted", _id)}
               >
                 Accept

@@ -10,7 +10,7 @@ const UserCard = ({ user, editable = false }) => {
   const handleSendRequest = async (status, userId) => {
     try {
       await axios.post(
-        BASE_URL + "/request/send/" + status + "/" + userId,
+        BASE_URL + "/api/request/send/" + status + "/" + userId,
         {},
         { withCredentials: true }
       );
@@ -48,7 +48,7 @@ const UserCard = ({ user, editable = false }) => {
         {!editable ? (
           <div className="grid grid-cols-2 gap-3 mt-auto">
             <button
-              className="btn btn-outline border-gray-600 text-gray-200 hover:bg-gray-700"
+              className="btn btn-secondary border-gray-600 text-gray-200"
               onClick={() => handleSendRequest("ignored", _id)}
             >
               Ignore
