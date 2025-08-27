@@ -39,9 +39,17 @@ const Requests = () => {
     fetchRequests();
   }, []);
 
-  if (loading) return <p className="text-center my-10">Loading requests...</p>;
+  if (loading)
+    return (
+      <p className="text-center text-white my-10">Loading requests...</p>
+    );
+
   if (!requests || requests.length === 0)
-    return <h1 className="flex justify-center my-10">No Requests Found</h1>;
+    return (
+      <h1 className="flex justify-center text-white my-10">
+        No Requests Found
+      </h1>
+    );
 
   return (
     <div className="text-center my-10 px-4">
@@ -51,39 +59,38 @@ const Requests = () => {
 
       {requests.map((request) => {
         const { _id, fromUserId } = request;
-        const { firstName, lastName, photoUrl, age, gender, about } =
-          fromUserId;
+        const { firstName, lastName, photoUrl, age, gender, about } = fromUserId;
 
         return (
           <div
             key={_id}
-            className="flex flex-col md:flex-row justify-between items-center gap-4 m-4 p-4 rounded-lg bg-base-200 w-full md:w-2/3 lg:w-1/2 mx-auto"
+            className="flex flex-col md:flex-row justify-between items-center gap-4 m-4 p-4 rounded-lg bg-gray-800 text-white border border-gray-700 w-full md:w-2/3 lg:w-1/2 mx-auto"
           >
             <img
               alt="profile"
-              className="w-20 h-20 rounded-full object-cover border"
+              className="w-20 h-20 rounded-full object-cover border border-gray-600"
               src={photoUrl}
             />
             <div className="text-left flex-1">
-              <h2 className="text-xl font-bold">
+              <h2 className="text-xl font-bold text-white">
                 {firstName} {lastName}
               </h2>
               {age && gender && (
-                <p className="text-sm">
+                <p className="text-sm text-gray-300">
                   {age}, {gender}
                 </p>
               )}
-              <p className="text-sm">{about}</p>
+              <p className="text-sm text-gray-300">{about}</p>
             </div>
             <div className="flex gap-2">
               <button
-                className="btn btn-primary"
+                className="btn btn-secondary bg-red-600 hover:bg-red-700 border-none"
                 onClick={() => reviewRequest("rejected", _id)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-secondary"
+                className="btn btn-primary bg-green-600 hover:bg-green-700 border-none"
                 onClick={() => reviewRequest("accepted", _id)}
               >
                 Accept

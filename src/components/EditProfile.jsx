@@ -51,18 +51,19 @@ const EditProfile = ({ user }) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto my-10 px-4">
-      <div className="w-full max-w-md bg-base-200 rounded-2xl p-6 shadow-xl">
-        <h2 className="text-2xl font-semibold text-center mb-6 text-primary">
+      {/* Form */}
+      <div className="w-full max-w-md bg-gray-900 rounded-2xl p-6 shadow-xl">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-white">
           Edit Profile
         </h2>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium text-gray-200">
               First Name<span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-gray-800 text-white border-gray-700"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
@@ -70,12 +71,12 @@ const EditProfile = ({ user }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium text-gray-200">
               Last Name<span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-gray-800 text-white border-gray-700"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
@@ -83,22 +84,24 @@ const EditProfile = ({ user }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">Photo URL</label>
+            <label className="block mb-1 font-medium text-gray-200">
+              Photo URL
+            </label>
             <input
               type="text"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-gray-800 text-white border-gray-700"
               value={photoUrl}
               onChange={(e) => setPhotoUrl(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium text-gray-200">
               Age<span className="text-red-500">*</span>
             </label>
             <input
               type="number"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full bg-gray-800 text-white border-gray-700"
               value={age}
               onChange={(e) => setAge(e.target.value)}
               required
@@ -106,11 +109,11 @@ const EditProfile = ({ user }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">
+            <label className="block mb-1 font-medium text-gray-200">
               Gender<span className="text-red-500">*</span>
             </label>
             <select
-              className="select select-bordered w-full"
+              className="select select-bordered w-full bg-gray-800 text-white border-gray-700"
               value={gender}
               onChange={(e) => setGender(e.target.value)}
               required
@@ -123,9 +126,11 @@ const EditProfile = ({ user }) => {
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">About</label>
+            <label className="block mb-1 font-medium text-gray-200">
+              About
+            </label>
             <textarea
-              className="textarea textarea-bordered w-full"
+              className="textarea textarea-bordered w-full bg-gray-800 text-white border-gray-700"
               rows="3"
               value={about}
               onChange={(e) => setAbout(e.target.value)}
@@ -141,12 +146,16 @@ const EditProfile = ({ user }) => {
           </div>
         </form>
       </div>
+
+      {/* UserCard preview */}
       <div className="w-full max-w-sm h-full flex flex-col justify-between my-8">
         <UserCard
           user={{ firstName, lastName, photoUrl, age, gender, about }}
           editable={true}
         />
       </div>
+
+      {/* Toast */}
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success shadow-lg">

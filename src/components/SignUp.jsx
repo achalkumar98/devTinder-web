@@ -28,9 +28,10 @@ const SignUp = () => {
     }
   };
 
-   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="flex flex-col lg:flex-row w-full max-w-2xl bg-base-100 shadow-xl rounded-xl overflow-hidden">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-800 px-4">
+      <div className="flex flex-col lg:flex-row w-full max-w-2xl bg-gray-900 shadow-xl rounded-xl overflow-hidden">
+        {/* Left Image */}
         <div className="hidden lg:block lg:w-1/2">
           <img
             src="https://images.unsplash.com/photo-1508921912186-1d1a45ebb3c1?auto=format&fit=crop&w=800&q=80"
@@ -38,64 +39,66 @@ const SignUp = () => {
             className="object-cover h-full w-full"
           />
         </div>
-        <div className="w-full lg:w-1/2 px-6 py-6 sm:px-8 sm:py-8">
-          <h2 className="text-2xl font-bold text-center mb-4">
+
+        {/* Form */}
+        <div className="w-full lg:w-1/2 px-6 py-6 sm:px-8 sm:py-8 text-gray-100">
+          <h2 className="text-2xl font-bold text-center mb-4 text-white">
             Create Account
           </h2>
 
           <form className="space-y-4">
             <div>
               <label className="label">
-                <span className="label-text">First Name</span>
+                <span className="label-text text-gray-200">First Name</span>
               </label>
               <input
                 type="text"
                 placeholder="First name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-gray-800 text-gray-100 border-gray-700"
                 required
               />
             </div>
 
             <div>
               <label className="label">
-                <span className="label-text">Last Name</span>
+                <span className="label-text text-gray-200">Last Name</span>
               </label>
               <input
                 type="text"
                 placeholder="Last name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-gray-800 text-gray-100 border-gray-700"
                 required
               />
             </div>
 
             <div>
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text text-gray-200">Email</span>
               </label>
               <input
                 type="email"
                 placeholder="Email"
                 value={emailId}
                 onChange={(e) => setEmailID(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-gray-800 text-gray-100 border-gray-700"
                 required
               />
             </div>
 
             <div>
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-gray-200">Password</span>
               </label>
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input input-bordered w-full"
+                className="input input-bordered w-full bg-gray-800 text-gray-100 border-gray-700"
                 required
               />
             </div>
@@ -110,11 +113,11 @@ const SignUp = () => {
               Sign Up
             </button>
 
-            <div className="divider">OR</div>
+            <div className="divider text-gray-300">OR</div>
 
             <button
               type="button"
-              className="btn btn-outline w-full"
+              className="btn btn-outline w-full border-gray-700 text-gray-100 hover:bg-gray-700"
               onClick={() => alert("Google login not implemented yet")}
             >
               <img
@@ -126,9 +129,9 @@ const SignUp = () => {
             </button>
           </form>
 
-          <p className="text-center text-sm mt-4">
+          <p className="text-center text-sm mt-4 text-gray-300">
             Already have an account?{" "}
-            <Link to="/login" className="link link-primary">
+            <Link to="/login" className="link link-primary text-blue-400">
               Login here
             </Link>
           </p>
@@ -137,7 +140,5 @@ const SignUp = () => {
     </div>
   );
 };
-
-
 
 export default SignUp;

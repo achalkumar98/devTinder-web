@@ -1,41 +1,68 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { useState, useEffect } from "react";
 
 const Premium = () => {
+  const [isUserPremium, setIsUserPremium] = useState(false);
+
+  useEffect(() => {
+    verifyPremiumUser();
+  }, []);
+
+  const verifyPremiumUser = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/premium/verify`, {
+        withCredentials: true,
+      });
+      setIsUserPremium(res.data.isPremium || false);
+    } catch (err) {
+      console.error("Error verifying premium user:", err);
+    }
+  };
+
   const handleBuyClick = async (type) => {
-    const order = await axios.post(
-      BASE_URL + "/payment/create",
-      {
-        membershipType: type,
-      },
-      { withCredentials: true }
-    );
+    if (isUserPremium) return; 
 
-    const { amount, keyId, currency, notes, orderId } = order.data;
+    try {
+      const order = await axios.post(
+        `${BASE_URL}/payment/create`,
+        { membershipType: type },
+        { withCredentials: true }
+      );
 
-    const options = {
-      key: keyId,
-      amount,
-      currency,
-      name: "DevTinder",
-      description: "Connect to other developers",
-      order_id: orderId,
-      prefill: {
-        name: notes.firstName + " " + notes.lastName,
-        email: notes.emailId,
-        contact: "9999999999",
-      },
-      theme: {
-        color: "#F37254",
-      },
-    };
+      const { amount, keyId, currency, notes, orderId } = order.data;
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+      const options = {
+        key: keyId,
+        amount,
+        currency,
+        name: "DevTinder",
+        description: "Connect to other developers",
+        order_id: orderId,
+        prefill: {
+          name: `${notes.firstName} ${notes.lastName}`,
+          email: notes.emailId,
+          contact: "9999999999",
+        },
+        theme: { color: "#F37254" },
+        handler: () => verifyPremiumUser(), 
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Error creating payment:", err);
+    }
   };
 
   return (
     <div className="flex flex-wrap gap-6 justify-center m-10 p-6">
+      {isUserPremium && (
+        <div className="w-full text-center mb-6 text-green-600 font-bold text-xl">
+          🎉 You are a Premium Member!
+        </div>
+      )}
+
       {/* Silver */}
       <div className="w-full max-w-sm bg-gradient-to-b from-gray-200 to-gray-300 rounded-2xl shadow-lg overflow-hidden border border-gray-300 flex flex-col">
         <div className="flex-1 flex flex-col justify-between p-6">
@@ -52,10 +79,11 @@ const Premium = () => {
             </ul>
           </div>
           <button
-            onClick={() => handleBuyClick("gold")}
+            onClick={() => handleBuyClick("silver")}
             className="btn btn-primary btn-block mt-6"
+            disabled={isUserPremium} // ❌ Disable if already premium
           >
-            Subscribe
+            {isUserPremium ? "Already Premium" : "Subscribe"}
           </button>
         </div>
       </div>
@@ -81,8 +109,9 @@ const Premium = () => {
           <button
             onClick={() => handleBuyClick("gold")}
             className="btn btn-primary btn-block mt-6"
+            disabled={isUserPremium}
           >
-            Subscribe
+            {isUserPremium ? "Already Premium" : "Subscribe"}
           </button>
         </div>
       </div>
@@ -104,10 +133,11 @@ const Premium = () => {
             </ul>
           </div>
           <button
-            onClick={() => handleBuyClick("gold")}
+            onClick={() => handleBuyClick("diamond")}
             className="btn btn-primary btn-block mt-6"
+            disabled={isUserPremium}
           >
-            Subscribe
+            {isUserPremium ? "Already Premium" : "Subscribe"}
           </button>
         </div>
       </div>

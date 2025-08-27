@@ -26,9 +26,17 @@ const Connections = () => {
     fetchConnections();
   }, []);
 
-  if (loading) return <p className="text-center my-10">Loading connections...</p>;
+  if (loading)
+    return (
+      <p className="text-center text-white my-10">Loading connections...</p>
+    );
+
   if (!connections || connections.length === 0)
-    return <h1 className="flex justify-center my-10">No Connections Found</h1>;
+    return (
+      <h1 className="flex justify-center text-white my-10">
+        No Connections Found
+      </h1>
+    );
 
   return (
     <div className="text-center my-10 px-4">
@@ -37,19 +45,23 @@ const Connections = () => {
       {connections.map(({ _id, firstName, lastName, photoUrl, age, gender, about }) => (
         <div
           key={_id}
-          className="flex items-center gap-4 m-4 p-4 rounded-lg bg-base-200 w-full md:w-2/3 lg:w-1/2 mx-auto"
+          className="flex items-center gap-4 m-4 p-4 rounded-lg bg-gray-800 text-white border border-gray-700 w-full md:w-2/3 lg:w-1/2 mx-auto"
         >
           <img
             alt="profile"
-            className="w-20 h-20 object-cover rounded-full border"
+            className="w-20 h-20 object-cover rounded-full border border-gray-600"
             src={photoUrl}
           />
-          <div className="text-left">
-            <h2 className="text-xl font-bold">
+          <div className="text-left flex-1">
+            <h2 className="text-xl font-bold text-white">
               {firstName} {lastName}
             </h2>
-            {age && gender && <p className="text-sm">{age}, {gender}</p>}
-            <p className="text-sm">{about}</p>
+            {age && gender && (
+              <p className="text-sm text-gray-300">
+                {age}, {gender}
+              </p>
+            )}
+            <p className="text-sm text-gray-300">{about}</p>
           </div>
         </div>
       ))}

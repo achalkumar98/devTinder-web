@@ -20,15 +20,16 @@ const UserCard = ({ user, editable = false }) => {
     }
   };
 
- return (
-    <div className="w-full max-w-sm bg-white dark:bg-base-300 rounded-2xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-[1.01] duration-300 flex flex-col">
+  return (
+    <div className="w-full max-w-sm bg-gray-900 rounded-2xl shadow-lg overflow-hidden border border-gray-700 transition-transform transform hover:scale-[1.01] duration-300 flex flex-col">
+      {/* Image section */}
       <div className="h-[400px] relative">
         <img
           src={photoUrl}
           alt={`${firstName}'s photo`}
           className="w-full h-full object-cover"
         />
-        <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white">
+        <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
           <h2 className="text-xl font-semibold">
             {firstName} {lastName}
           </h2>
@@ -39,15 +40,15 @@ const UserCard = ({ user, editable = false }) => {
           )}
         </div>
       </div>
+
+      {/* Details section */}
       <div className="flex-1 flex flex-col justify-between h-full p-5">
-        <p className="text-gray-700 dark:text-gray-300 text-sm mb-6 min-h-[100px]">
-          {about}
-        </p>
+        <p className="text-gray-300 text-sm mb-6 min-h-[100px]">{about}</p>
 
         {!editable ? (
           <div className="grid grid-cols-2 gap-3 mt-auto">
             <button
-              className="btn btn-secondary"
+              className="btn btn-outline border-gray-600 text-gray-200 hover:bg-gray-700"
               onClick={() => handleSendRequest("ignored", _id)}
             >
               Ignore
@@ -60,7 +61,7 @@ const UserCard = ({ user, editable = false }) => {
             </button>
           </div>
         ) : (
-          <div className="pt-4 border-t border-base-300 text-xs text-gray-400 text-center">
+          <div className="pt-4 border-t border-gray-700 text-xs text-gray-400 text-center">
             This is a preview of your profile
           </div>
         )}
@@ -68,6 +69,5 @@ const UserCard = ({ user, editable = false }) => {
     </div>
   );
 };
-
 
 export default UserCard;
