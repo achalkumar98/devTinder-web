@@ -11,9 +11,7 @@ const Requests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/api/user/requests/received", {
-        withCredentials: true,
-      });
+      const res = await axios.get(BASE_URL + "/api/user/requests/received", { withCredentials: true });
       dispatch(addRequests(res.data.data));
     } catch (err) {
       console.error("Failed to fetch requests:", err);
@@ -24,11 +22,7 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      await axios.post(
-        `${BASE_URL}/api/request/review/${status}/${_id}`,
-        {},
-        { withCredentials: true }
-      );
+      await axios.post(`${BASE_URL}/api/request/review/${status}/${_id}`, {}, { withCredentials: true });
       dispatch(removeRequest(_id));
     } catch (err) {
       console.error("Error reviewing request:", err);
@@ -39,24 +33,13 @@ const Requests = () => {
     fetchRequests();
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-center text-white my-10">Loading requests...</p>
-    );
-
+  if (loading) return <p className="text-center text-white my-10">Loading requests...</p>;
   if (!requests || requests.length === 0)
-    return (
-      <h1 className="flex justify-center text-white my-10">
-        No Requests Found
-      </h1>
-    );
+    return <h1 className="flex justify-center text-white my-10">No Requests Found</h1>;
 
   return (
-    <div className="text-center my-10 px-4">
-      <h1 className="font-bold text-white text-3xl mb-6">
-        Connection Requests
-      </h1>
-
+    <div className="text-center my-10 p-8">
+      <h1 className="font-bold text-white text-3xl mt-4">Connection Requests</h1>
       {requests.map((request) => {
         const { _id, fromUserId } = request;
         const { firstName, lastName, photoUrl, age, gender, about } = fromUserId;
@@ -72,25 +55,19 @@ const Requests = () => {
               src={photoUrl}
             />
             <div className="text-left flex-1">
-              <h2 className="text-xl font-bold text-white">
-                {firstName} {lastName}
-              </h2>
-              {age && gender && (
-                <p className="text-sm text-gray-300">
-                  {age}, {gender}
-                </p>
-              )}
-              <p className="text-sm text-gray-300">{about}</p>
+              <h2 className="text-xl font-bold">{firstName} {lastName}</h2>
+              {age && gender && <p className="text-sm text-gray-300">{age}, {gender}</p>}
+              <p className="text-sm text-gray-300 line-clamp-2">{about}</p>
             </div>
             <div className="flex gap-2">
               <button
-                className="btn btn-secondary border-none"
+                className="btn btn-outline btn-secondary border-gray-600 text-gray-200 hover:bg-gray-700 transition"
                 onClick={() => reviewRequest("rejected", _id)}
               >
                 Reject
               </button>
               <button
-                className="btn btn-primary border-none"
+                className="btn btn-primary text-white px-4 py-2 rounded-lg transition"
                 onClick={() => reviewRequest("accepted", _id)}
               >
                 Accept

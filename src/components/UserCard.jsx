@@ -10,7 +10,7 @@ const UserCard = ({ user, editable = false }) => {
   const handleSendRequest = async (status, userId) => {
     try {
       await axios.post(
-        BASE_URL + "/api/request/send/" + status + "/" + userId,
+        `${BASE_URL}/api/request/send/${status}/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -21,20 +21,21 @@ const UserCard = ({ user, editable = false }) => {
   };
 
   return (
-    <div className="w-full max-w-sm bg-gray-900 rounded-2xl shadow-lg overflow-hidden border border-gray-700 transition-transform transform hover:scale-[1.01] duration-300 flex flex-col">
+    <div className="w-full max-w-sm bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700 transform transition hover:scale-105 duration-300 flex flex-col">
+      
       {/* Image section */}
-      <div className="h-[400px] relative">
+      <div className="h-80 sm:h-96 relative">
         <img
           src={photoUrl}
           alt={`${firstName}'s photo`}
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
-          <h2 className="text-xl font-semibold">
+          <h2 className="text-xl font-semibold truncate">
             {firstName} {lastName}
           </h2>
           {age && gender && (
-            <p className="text-sm">
+            <p className="text-sm text-gray-200">
               {age} years old, {gender}
             </p>
           )}
@@ -43,18 +44,18 @@ const UserCard = ({ user, editable = false }) => {
 
       {/* Details section */}
       <div className="flex-1 flex flex-col justify-between h-full p-5">
-        <p className="text-gray-300 text-sm mb-6 min-h-[100px]">{about}</p>
+        <p className="text-gray-300 text-sm mb-4 min-h-[80px] sm:min-h-[100px] break-words">{about}</p>
 
         {!editable ? (
           <div className="grid grid-cols-2 gap-3 mt-auto">
             <button
-              className="btn btn-secondary border-gray-600 text-gray-200"
+              className="btn btn-outline btn-secondary border-gray-600 text-gray-200 hover:bg-gray-700 transition"
               onClick={() => handleSendRequest("ignored", _id)}
             >
               Ignore
             </button>
             <button
-              className="btn btn-primary"
+              className="btn btn-primary hover:scale-105 transition"
               onClick={() => handleSendRequest("interested", _id)}
             >
               Interested

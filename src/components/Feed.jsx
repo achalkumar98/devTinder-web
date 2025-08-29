@@ -13,9 +13,7 @@ const Feed = () => {
   const getFeed = async () => {
     if (feed) return;
     try {
-      const res = await axios.get(BASE_URL + "/api/feed", {
-        withCredentials: true,
-      });
+      const res = await axios.get(`${BASE_URL}/api/feed`, { withCredentials: true });
       dispatch(addFeed(res?.data));
     } catch (err) {
       setError(err.response?.data || "Failed to fetch feed");
@@ -30,16 +28,16 @@ const Feed = () => {
     return <h1 className="flex justify-center my-10 text-red-500">{error}</h1>;
   }
 
-  if (!feed) return;
+  if (!feed) return null;
 
-  if (feed.length <= 0)
-    return <h1 className="flex justify-center my-10">No New Users Found</h1>;
+  if (feed.length <= 0) {
+    return <h1 className="flex justify-center my-10 text-gray-300">No New Users Found</h1>;
+  }
+
   return (
-    feed && (
-      <div className="flex justify-center my-10">
-        <UserCard user={feed[0]} />
-      </div>
-    )
+    <div className="flex justify-center my-10 px-4 sm:px-6 md:px-8">
+      <UserCard user={feed[0]} />
+    </div>
   );
 };
 
