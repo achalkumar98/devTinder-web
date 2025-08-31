@@ -1,6 +1,6 @@
 node_modules 
-
 .env
 .env.local
-.env.*  # optional, ignores all other env files
+.env.*
+
 
