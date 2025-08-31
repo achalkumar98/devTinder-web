@@ -11,7 +11,7 @@ const Premium = () => {
 
   const verifyPremiumUser = async () => {
     try {
-      const res = await axios.get(`${BASE_URL}/api/premium/verify`, { withCredentials: true });
+      const res = await axios.get(`${BASE_URL}/premium/verify`, { withCredentials: true });
       setIsUserPremium(res.data.isPremium || false);
     } catch (err) {
       console.error("Error verifying premium user:", err);
@@ -21,7 +21,7 @@ const Premium = () => {
   const handleBuyClick = async (type) => {
     if (isUserPremium) return;
     try {
-      const order = await axios.post(`${BASE_URL}/api/payment/create`, { membershipType: type }, { withCredentials: true });
+      const order = await axios.post(`${BASE_URL}/payment/create`, { membershipType: type }, { withCredentials: true });
       const { amount, keyId, currency, notes, orderId } = order.data;
       const options = {
         key: keyId,

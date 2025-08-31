@@ -26,7 +26,7 @@ const EditProfile = ({ user }) => {
 
     try {
       const res = await axios.put(
-        `${BASE_URL}/api/profile/edit`,
+        `${BASE_URL}/profile/edit`,
         { firstName, lastName, photoUrl, age, gender, about },
         { withCredentials: true }
       );

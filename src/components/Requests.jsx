@@ -11,7 +11,7 @@ const Requests = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/api/user/requests/received", { withCredentials: true });
+      const res = await axios.get(BASE_URL + "/user/requests/received", { withCredentials: true });
       dispatch(addRequests(res.data.data));
     } catch (err) {
       console.error("Failed to fetch requests:", err);
@@ -22,7 +22,7 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      await axios.post(`${BASE_URL}/api/request/review/${status}/${_id}`, {}, { withCredentials: true });
+      await axios.post(`${BASE_URL}/request/review/${status}/${_id}`, {}, { withCredentials: true });
       dispatch(removeRequest(_id));
     } catch (err) {
       console.error("Error reviewing request:", err);
