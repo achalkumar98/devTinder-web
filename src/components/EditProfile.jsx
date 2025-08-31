@@ -110,9 +110,9 @@ const EditProfile = ({ user }) => {
                 required
               >
                 <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+                <option value="other">other</option>
               </select>
             </div>
           </div>

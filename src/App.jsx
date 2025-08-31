@@ -15,20 +15,23 @@ import Chat from "./components/Chat";
 function App() {
   return (
     <Provider store={appStore}>
-      <BrowserRouter basename="/">
-        <Routes>
-          <Route path="/" element={<Body />}>
-            <Route path="/" element={<Feed />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/connections" element={<Connections />} />
-            <Route path="/requests" element={<Requests />} />
-            <Route path="/premium" element={<Premium />} />
-            <Route path="/chat/:targetUserId" element={<Chat />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      {/* Fullscreen flex container for responsive layout */}
+      <div className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route path="/" element={<Body />}>
+              <Route path="/" element={<Feed />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/connections" element={<Connections />} />
+              <Route path="/requests" element={<Requests />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </Provider>
   );
 }

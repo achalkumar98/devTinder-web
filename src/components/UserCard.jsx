@@ -2,10 +2,15 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../utils/feedSlice";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 
-const UserCard = ({ user, editable = false }) => {
+const UserCard = ({ user, editable = false, zIndex = 1 }) => {
   const { _id, firstName, lastName, age, gender, photoUrl, about } = user;
   const dispatch = useDispatch();
+
+  const x = useMotionValue(0);
+  const rotate = useTransform(x, [-200, 200], [-15, 15]);
+  const opacity = useTransform(x, [-200, -50, 50, 200], [0, 1, 1, 0]);
 
   const handleSendRequest = async (status, userId) => {
     try {
@@ -20,18 +25,41 @@ const UserCard = ({ user, editable = false }) => {
     }
   };
 
+  const handleDragEnd = (_, info) => {
+    if (editable) return;
+
+    if (info.offset.x > 120) {
+      // Right swipe → Interested
+      handleSendRequest("interested", _id);
+    } else if (info.offset.x < -120) {
+      // Left swipe → Ignored
+      handleSendRequest("ignored", _id);
+    }
+  };
+
   return (
-    <div className="w-full max-w-sm bg-gray-900 rounded-2xl shadow-xl overflow-hidden border border-gray-700 transform transition hover:scale-105 duration-300 flex flex-col">
-      
-      {/* Image section */}
-      <div className="h-80 sm:h-96 relative">
+    <motion.div
+      drag={!editable ? "x" : false}
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.8}
+      onDragEnd={handleDragEnd}
+      style={{ x, rotate, opacity, zIndex: editable ? "auto" : zIndex }}
+      className={`
+        ${editable ? "relative" : "absolute"}
+        w-72 sm:w-[350px] md:w-[380px] lg:w-[400px]
+        h-[70vh] sm:h-[480px] md:h-[490px] lg:h-[510px]
+        bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-900 flex flex-col mx-auto
+      `}
+    >
+      {/* Image / Cover */}
+      <div className="h-72 sm:h-[280px] md:h-[290px] lg:h-[310px] relative">
         <img
-          src={photoUrl}
+          src={photoUrl || "https://www.gravatar.com/avatar?d=mp"}
           alt={`${firstName}'s photo`}
           className="w-full h-full object-cover"
         />
         <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 to-transparent p-4 text-white">
-          <h2 className="text-xl font-semibold truncate">
+          <h2 className="text-xl sm:text-2xl font-bold truncate">
             {firstName} {lastName}
           </h2>
           {age && gender && (
@@ -42,32 +70,21 @@ const UserCard = ({ user, editable = false }) => {
         </div>
       </div>
 
-      {/* Details section */}
-      <div className="flex-1 flex flex-col justify-between h-full p-5">
-        <p className="text-gray-300 text-sm mb-4 min-h-[80px] sm:min-h-[100px] break-words">{about}</p>
-
-        {!editable ? (
-          <div className="grid grid-cols-2 gap-3 mt-auto">
-            <button
-              className="btn btn-outline btn-secondary border-gray-600 text-gray-200 hover:bg-gray-700 transition"
-              onClick={() => handleSendRequest("ignored", _id)}
-            >
-              Ignore
-            </button>
-            <button
-              className="btn btn-primary hover:scale-105 transition"
-              onClick={() => handleSendRequest("interested", _id)}
-            >
-              Interested
-            </button>
-          </div>
+      {/* About section */}
+      <div className="p-4 flex-1 flex flex-col justify-between">
+        {about ? (
+          <p className="text-gray-300 text-sm break-words">{about}</p>
         ) : (
-          <div className="pt-4 border-t border-gray-700 text-xs text-gray-400 text-center">
+          <p className="text-gray-500 text-sm italic">No additional information provided.</p>
+        )}
+
+        {editable && (
+          <div className="pt-2 border-t border-gray-700 text-xs text-gray-400 text-center mt-2">
             This is a preview of your profile
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -32,12 +32,17 @@ const Body = () => {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
-      <NavBar />
-      <main className="flex-grow pt-20 sm:pt-24 px-4 sm:px-6 md:px-8">
+    <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+      {/* NavBar stays sticky on top */}
+      <NavBar className="fixed top-0 left-0 w-full z-50 shadow-md bg-white dark:bg-gray-900" />
+
+      {/* Main content */}
+      <main className="flex-grow pt-24 sm:pt-28 px-4 sm:px-6 md:px-8 lg:px-16 transition-all duration-300">
         <Outlet />
       </main>
-      <Footer />
+
+      {/* Footer with responsive padding */}
+      <Footer className="mt-auto px-4 sm:px-6 md:px-8 py-6 bg-gray-100 dark:bg-gray-800 transition-colors duration-300" />
     </div>
   );
 };

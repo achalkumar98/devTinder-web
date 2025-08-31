@@ -28,8 +28,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 px-4">
-      <div className="flex flex-col lg:flex-row w-full max-w-3xl bg-gray-900/95 shadow-2xl rounded-2xl overflow-hidden border border-gray-800">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="flex flex-col lg:flex-row w-full max-w-3xl bg-gray-900/95 shadow-2xl rounded-2xl overflow-hidden border border-gray-800 transition-transform hover:scale-[1.01] duration-300">
         
         {/* Left Image */}
         <div className="hidden lg:block lg:w-1/2 relative">
@@ -51,29 +51,25 @@ const Login = () => {
 
           <form className="space-y-5">
             <div>
-              <label className="label">
-                <span className="label-text text-gray-300">Email</span>
-              </label>
+              <label className="block text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
                 value={emailId}
                 onChange={(e) => setEmailID(e.target.value)}
-                className="input input-bordered w-full bg-gray-800/80 text-gray-100 border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                 required
               />
             </div>
 
             <div>
-              <label className="label">
-                <span className="label-text text-gray-300">Password</span>
-              </label>
+              <label className="block text-gray-300 mb-1">Password</label>
               <input
                 type="password"
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input input-bordered w-full bg-gray-800/80 text-gray-100 border-gray-700 focus:border-primary focus:ring-1 focus:ring-primary"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                 required
               />
             </div>
@@ -88,12 +84,12 @@ const Login = () => {
               </Link>
             </div>
 
-            {error && <p className="text-error text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <button
               type="button"
-              className="btn btn-primary w-full text-white font-semibold tracking-wide"
               onClick={handleLogin}
+              className="w-full py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow-lg transition"
             >
               Login
             </button>

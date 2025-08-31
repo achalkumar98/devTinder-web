@@ -51,26 +51,15 @@ const Chat = () => {
 
     newSocket.emit("joinChat", { userId, targetUserId });
 
-    newSocket.on(
-      "messageReceived",
-      ({ senderId, firstName, lastName, text }) => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            firstName,
-            lastName,
-            text,
-            createdAt: new Date(),
-            senderId,
-          },
-        ]);
-      }
-    );
+    newSocket.on("messageReceived", ({ senderId, firstName, lastName, text }) => {
+      setMessages((prev) => [
+        ...prev,
+        { firstName, lastName, text, createdAt: new Date(), senderId },
+      ]);
+    });
 
     newSocket.on("userStatus", ({ userId: changedUserId, isOnline }) => {
-      if (changedUserId === targetUserId) {
-        setIsTargetOnline(isOnline);
-      }
+      if (changedUserId === targetUserId) setIsTargetOnline(isOnline);
     });
 
     return () => newSocket.disconnect();
@@ -87,13 +76,13 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-lg mx-auto my-4 h-[calc(100vh-8rem)] sm:h-[calc(100vh-6rem)] bg-gray-800 shadow-2xl rounded-xl">
+    <div className="flex flex-col max-w-lg mx-auto my-4 h-[calc(100vh-8rem)] sm:h-[calc(100vh-6rem)] bg-gray-800 shadow-2xl rounded-xl overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-gray-700 bg-gray-900 text-white text-lg font-semibold rounded-t-xl flex items-center justify-between shadow-md">
         <span>Chat</span>
         <div className="flex items-center gap-2">
           <span
-            className={`w-3 h-3 rounded-full ${
+            className={`w-3 h-3 rounded-full transition-colors ${
               isTargetOnline ? "bg-green-500" : "bg-gray-500"
             }`}
           ></span>
@@ -110,7 +99,7 @@ const Chat = () => {
           return (
             <div
               key={index}
-              className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+              className={`flex ${isMe ? "justify-end" : "justify-start"} group`}
             >
               <div className="max-w-[70%] sm:max-w-[60%] break-words">
                 {!isMe && (
@@ -119,8 +108,10 @@ const Chat = () => {
                   </div>
                 )}
                 <div
-                  className={`px-4 py-2 rounded-2xl shadow-md text-white break-words ${
-                    isMe ? "bg-indigo-600" : "bg-gray-700"
+                  className={`px-4 py-2 rounded-2xl shadow-md text-white break-words transition-colors duration-200 ${
+                    isMe
+                      ? "bg-indigo-600 group-hover:bg-indigo-700"
+                      : "bg-gray-700 group-hover:bg-gray-600"
                   }`}
                 >
                   {msg.text}
@@ -147,11 +138,11 @@ const Chat = () => {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 transition"
+          className="flex-1 px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 transition duration-200"
         />
         <button
           onClick={sendMessage}
-          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-medium shadow-md transition"
+          className="px-4 py-2 bg-secondary rounded-lg text-white font-medium shadow-md transition duration-200"
         >
           Send
         </button>
