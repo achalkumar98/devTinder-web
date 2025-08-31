@@ -11,12 +11,25 @@ const Feed = () => {
   const [error, setError] = useState(null);
 
   const getFeed = async () => {
-    if (feed) return;
+    if (feed && feed.length > 0) return;
+
     try {
       const res = await axios.get(`${BASE_URL}/api/feed`, { withCredentials: true });
-      dispatch(addFeed(res?.data));
+
+      if (res.data && Array.isArray(res.data)) {
+        dispatch(addFeed(res.data));
+      } else {
+        setError("Invalid feed data");
+        console.error("Unexpected feed response:", res.data);
+      }
     } catch (err) {
-      setError(err.response?.data || "Failed to fetch feed");
+      const message =
+        err.response?.data?.error?.message ||
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to fetch feed";
+      setError(message);
+      console.error(message);
     }
   };
 
