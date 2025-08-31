@@ -14,30 +14,16 @@ const Body = () => {
 
   const fetchUser = async () => {
     if (userData && userData.emailId) return;
-
     try {
-      const res = await axios.get(`${BASE_URL}/api/profile/view`, {
+      const res = await axios.get(BASE_URL + "/api/profile/view", {
         withCredentials: true,
       });
-
-      // Ensure res.data is an object with expected keys
-      if (res.data && typeof res.data === "object") {
-        dispatch(addUser(res.data));
-      } else {
-        console.error("Unexpected profile response:", res.data);
-      }
+      dispatch(addUser(res.data));
     } catch (err) {
-      const message =
-        err.response?.data?.error?.message ||
-        err.response?.data?.message ||
-        err.message ||
-        "Failed to fetch user";
-
-      console.error(message);
-
       if (err.response?.status === 401) {
         navigate("/login");
       }
+      console.error(err);
     }
   };
 
