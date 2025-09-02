@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { createSocketConnection, BASE_URL } from "../utils/socket";
+import { createSocketConnection } from "../utils/socket";
+import { BASE_URL } from '../utils/constants'
 import dayjs from "dayjs";
 
 const Chat = () => {
